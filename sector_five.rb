@@ -2,6 +2,7 @@ require 'gosu'
 
 require_relative './enemy.rb'
 require_relative './player.rb'
+require_relative './bullet.rb'
 
 class SectorFive < Gosu::Window
   WINDOW_HEIGHT = 800
@@ -14,11 +15,13 @@ class SectorFive < Gosu::Window
 
     @player = Player.new(self)
     @enemies = []
+    @bullets = []
   end
 
   def draw
     @player.draw
     @enemies.each(&:draw)
+    @bullets.each(&:draw)
   end
 
   def update
@@ -33,6 +36,13 @@ class SectorFive < Gosu::Window
     end
 
     @enemies.each(&:move)
+    @bullets.each(&:move)
+  end
+
+  def button_down(id)
+    if id == Gosu::KbSpace
+      @bullets.push Bullet.new(self, @player.x, @player.y, @player.angle)
+    end
   end
 
   def remove_enemy(enemy)
