@@ -1,11 +1,15 @@
 class Enemy
-  SPEED = 4
+  MAX_SPEED = 5
 
   def initialize(window)
     @radius = 20
+    @window = window
     @x = rand(window.width - 2 * @radius) + @radius
     @y = 0
     @image = Gosu::Image.new('images/enemy.png')
+
+    @velocity_x = (rand(1) - 1) * rand(4)
+    @velocity_y = rand(MAX_SPEED) + 1
   end
 
   def draw
@@ -13,6 +17,19 @@ class Enemy
   end
 
   def move
-    @y += SPEED
+    @x += @velocity_x
+    @y += @velocity_y
+
+    if @x > @window.width - @radius
+      @velocity_x = -@velocity_x
+      @x = @window.width - @radius
+    elsif @x < @radius
+      @velocity_x = -@velocity_x
+      @x = @radius
+    end
+
+    if @y > @window.height + @radius
+      @window.remove_enemy(self)
+    end
   end
 end
