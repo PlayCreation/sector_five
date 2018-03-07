@@ -3,6 +3,7 @@ require 'gosu'
 require_relative './enemy.rb'
 require_relative './player.rb'
 require_relative './bullet.rb'
+require_relative './explosion.rb'
 
 class SectorFive < Gosu::Window
   WINDOW_HEIGHT = 800
@@ -16,12 +17,14 @@ class SectorFive < Gosu::Window
     @player = Player.new(self)
     @enemies = []
     @bullets = []
+    @explosions = []
   end
 
   def draw
     @player.draw
     @enemies.each(&:draw)
     @bullets.each(&:draw)
+    @explosions.each(&:draw)
   end
 
   def update
@@ -37,6 +40,17 @@ class SectorFive < Gosu::Window
 
     @enemies.each(&:move)
     @bullets.each(&:move)
+
+    @enemies.dup.each do |enemy|
+      @bullets.dup.each do |bullet|
+        distance = Gosu.distance(enemy.x, enemy.y, bullet.x, bullet.y)
+        if distance < enemy.radius + bullet.radius
+          @enemies.delete enemy
+          @bullets.delete bullet
+          @explosions.push Explosion.new(self, enemy.x, enemy.y)
+        end
+      end
+    end
   end
 
   def button_down(id)
@@ -47,6 +61,10 @@ class SectorFive < Gosu::Window
 
   def remove_enemy(enemy)
     @enemies.delete(enemy)
+  end
+
+  def remove_explosion(explosion)
+    @explosions.delete(explosion)
   end
 end
 
