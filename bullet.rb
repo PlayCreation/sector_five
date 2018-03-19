@@ -20,4 +20,12 @@ class Bullet
   def draw
     @image.draw(@x - @radius, @y - @radius, 1)
   end
+
+  def onscreen?
+    right = @window.width + @radius
+    left = -@radius
+    top = -@radius
+    bottom = @window.height + @radius
+    @x > left && @x < right && @y > top && @y < bottom
+  end
 end

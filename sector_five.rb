@@ -16,6 +16,7 @@ class SectorFive < Gosu::Window
 
     @player = Player.new(self)
     @enemies = []
+
     @bullets = []
     @explosions = []
   end
@@ -33,7 +34,6 @@ class SectorFive < Gosu::Window
 
     @player.accelerate if button_down?(Gosu::KbUp)
     @player.move
-
     if rand < ENEMY_FREQUENCY
       @enemies.push Enemy.new(self)
     end
@@ -50,6 +50,20 @@ class SectorFive < Gosu::Window
           @explosions.push Explosion.new(self, enemy.x, enemy.y)
         end
       end
+    end
+
+    @explosions.dup.each do |explosion|
+      @explosions.delete explosion if explosion.finished
+    end
+
+    @enemies.dup.each do |enemy|
+      if enemy.y > WINDOW_HEIGHT + enemy.radius
+        @enemies.delete enemy
+      end
+    end
+
+    @bullets.dup.each do |bullet|
+      @bullets.delete bullet unless bullet.onscreen?
     end
   end
 
