@@ -17,7 +17,6 @@ class Explosion
       @image_index += 1
     else
       @finished = true
-      @window.remove_explosion self
     end
   end
 end

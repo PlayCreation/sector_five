@@ -29,9 +29,5 @@ class Enemy
       @velocity_x = -@velocity_x
       @x = @radius
     end
-
-    if @y > @window.height + @radius
-      @window.remove_enemy(self)
-    end
   end
 end
