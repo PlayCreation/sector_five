@@ -120,6 +120,9 @@ class SectorFive < Gosu::Window
   end
 
   def update_end
+    @credits.each do |credit|
+      credit.move
+    end
   end
 
   def button_down_start(id)
@@ -133,6 +136,11 @@ class SectorFive < Gosu::Window
   end
 
   def button_down_end(id)
+    if id == Gosu::KbP
+      initialize_game
+    elsif id == Gosu::KbQ
+      close
+    end
   end
 
   def initialize_game
@@ -179,11 +187,11 @@ class SectorFive < Gosu::Window
       end
     end
 
-    draw_line(0,140,Gosu::Color::RED,WIDTH,140,Gosu::Color::RED)
-    @message_font.draw(@message,40,40,1,1,1,Gosu::Color::FUCHSIA)
-    @message_font.draw(@message2,40,75,1,1,1,Gosu::Color::FUCHSIA)
-    draw_line(0,500,Gosu::Color::RED,WIDTH,500,Gosu::Color::RED)
-    @message_font.draw(@bottom_message,180,540,1,1,1,Gosu::Color::AQUA)
+    draw_line(0,140,Gosu::Color::RED, WINDOW_WIDTH, 140, Gosu::Color::RED)
+    @message_font.draw(@message, 40, 40, 1, 1, 1, Gosu::Color::FUCHSIA)
+    @message_font.draw(@message2, 40, 75, 1, 1, 1, Gosu::Color::FUCHSIA)
+    draw_line(0,500,Gosu::Color::RED, WINDOW_WIDTH, 500, Gosu::Color::RED)
+    @message_font.draw(@bottom_message, 180, 540, 1, 1, 1, Gosu::Color::AQUA)
   end
 end
 
