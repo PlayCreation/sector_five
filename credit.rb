@@ -16,7 +16,6 @@ class Credit
   end
 
   def draw
-    puts "(#{ @x }, #{ @y }) - #{ @text }"
     @font.draw(@text, @x, @y, 1)
   end
 
